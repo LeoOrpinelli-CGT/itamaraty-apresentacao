@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cogtive Light × Itamaraty — Apresentação Exclusiva</title>
+<link rel="icon" type="image/png" href="Cogtive_Symbol_Off_White.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cogtive-blue: #0066FF;
+  --cogtive-blue-dark: #0050CC;
+  --cogtive-blue-light: #3385FF;
+  --cogtive-blue-glow: rgba(0, 102, 255, 0.3);
+  --dark: #0A0E1A;
+  --dark-card: #111827;
+  --dark-surface: #1A2035;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --accent-red: #EF4444;
+  --accent-green: #10B981;
+  --accent-orange: #F59E0B;
+  --accent-teal: #14B8A6;
+  --accent-purple: #8B5CF6;
+  --accent-yellow: #FBBF24;
+  --accent-cyan: #06B6D4;
+  --border: rgba(255,255,255,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--cogtive-blue) var(--dark); }
+body { font-family: 'Outfit', sans-serif; background: var(--dark); color: var(--text-primary); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body.locked { overflow: hidden; }
+
+/* LOGIN */
+.login-overlay { position: fixed; inset: 0; background: radial-gradient(circle at 50% 30%, #0F1E3D 0%, var(--dark) 70%); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.login-card { width: 100%; max-width: 440px; background: rgba(17,24,39,0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 3rem 2.5rem; box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,102,255,0.1); position: relative; overflow: hidden; }
+.login-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cogtive-blue), var(--accent-teal)); }
+.login-logo { height: 40px; width: auto; max-width: 70%; margin-bottom: 2rem; display: block; object-fit: contain; }
+.login-card h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0.4rem; }
+.login-card .login-sub { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.5; }
+.login-form { display: flex; flex-direction: column; gap: 1rem; }
+.login-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.login-field label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; }
+.login-field input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.85rem 1rem; color: var(--text-primary); font-family: inherit; font-size: 0.95rem; transition: all 0.2s ease; }
+.login-field input:focus { outline: none; border-color: var(--cogtive-blue); background: rgba(0,102,255,0.05); }
+.login-submit { background: linear-gradient(135deg, var(--cogtive-blue), var(--cogtive-blue-dark)); color: white; border: none; padding: 1rem; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.25s ease; letter-spacing: 0.3px; }
+.login-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,102,255,0.35); }
+.login-error { color: var(--accent-red); font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2em; }
+.login-footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
+
+/* ADMIN */
+.admin-overlay { position: fixed; inset: 0; background: rgba(5,8,15,0.92); backdrop-filter: blur(8px); z-index: 10100; display: none; align-items: center; justify-content: center; padding: 2rem; }
+.admin-overlay.visible { display: flex; }
+.admin-card { width: 100%; max-width: 500px; background: var(--dark-card); border: 1px solid var(--cogtive-blue); border-radius: 20px; padding: 2.5rem; position: relative; box-shadow: 0 0 80px rgba(0,102,255,0.2); }
+.admin-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem; }
+.admin-card h3 .tag { font-size: 0.6rem; padding: 0.25rem 0.6rem; background: var(--cogtive-blue); color: white; border-radius: 100px; letter-spacing: 1.5px; font-weight: 700; }
+.admin-card .admin-sub { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+.admin-close { position: absolute; top: 1rem; right: 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.1); width: 32px; height: 32px; border-radius: 50%; color: var(--text-muted); cursor: pointer; }
+.admin-section { margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.admin-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--cogtive-blue-light); font-weight: 600; margin-bottom: 0.6rem; }
+.admin-row { display: flex; gap: 0.6rem; align-items: center; }
+.admin-row input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 0.7rem 0.9rem; color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+.admin-btn { background: var(--cogtive-blue); color: white; border: none; padding: 0.7rem 1.2rem; border-radius: 8px; font-family: inherit; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
+.admin-btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-secondary); }
+.admin-status { font-size: 0.8rem; margin-top: 0.6rem; min-height: 1.2em; }
+.admin-status.ok { color: var(--accent-green); }
+.admin-status.err { color: var(--accent-red); }
+.admin-current { display: flex; justify-content: space-between; font-size: 0.82rem; background: rgba(0,102,255,0.06); padding: 0.7rem 0.9rem; border-radius: 8px; border: 1px solid rgba(0,102,255,0.15); margin-bottom: 0.8rem; }
+.admin-current span:first-child { color: var(--text-muted); }
+.admin-current span:last-child { font-family: 'JetBrains Mono', monospace; color: var(--cogtive-blue-light); font-weight: 600; }
+.admin-help { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.8rem; line-height: 1.5; }
+.admin-help code { font-family: 'JetBrains Mono', monospace; background: rgba(0,102,255,0.1); padding: 0.1rem 0.35rem; border-radius: 4px; color: var(--cogtive-blue-light); }
+
+/* APP */
+#app.hidden { display: none; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--cogtive-blue), var(--accent-teal)); z-index: 900; transition: width 0.1s linear; width: 0%; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 800; padding: 1rem 3rem; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(10,14,26,0.8); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.nav-logo { height: 28px; width: auto; display: block; object-fit: contain; }
+.nav-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
+.nav-logout { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); background: transparent; border: 1px solid rgba(255,255,255,0.08); padding: 0.4rem 0.8rem; border-radius: 100px; cursor: pointer; font-family: inherit; }
+
+/* LIGHT BADGE */
+.light-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.7rem; background: linear-gradient(135deg, var(--accent-teal), var(--cogtive-blue)); color: white; font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; border-radius: 100px; text-transform: uppercase; }
+
+/* SECTIONS */
+section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 6rem 3rem; position: relative; }
+.section-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+.section-label { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--cogtive-blue-light); font-weight: 600; margin-bottom: 1rem; }
+.section-label::before { content: ''; width: 30px; height: 2px; background: var(--cogtive-blue); }
+.section-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1rem; }
+.section-desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 780px; line-height: 1.7; font-weight: 300; }
+
+/* ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(60px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+.reveal-delay-4 { transition-delay: 0.6s; }
+.reveal-delay-5 { transition-delay: 0.75s; }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -30%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, var(--cogtive-blue-glow) 0%, transparent 70%); animation: pulse-glow 6s ease-in-out infinite; }
+@keyframes pulse-glow { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } }
+.hero-content { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.3); padding: 0.5rem 1.2rem; border-radius: 100px; font-size: 0.85rem; color: var(--cogtive-blue-light); font-weight: 500; margin-bottom: 2rem; }
+.hero-badge .dot { width: 8px; height: 8px; background: var(--cogtive-blue); border-radius: 50%; animation: dot-pulse 2s ease-in-out infinite; }
+@keyframes dot-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero h1 { font-size: clamp(2.6rem,5.5vw,4.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 1.5rem; }
+.hero h1 .highlight { background: linear-gradient(135deg, var(--cogtive-blue), var(--accent-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub { font-size: 1.25rem; color: var(--text-secondary); max-width: 780px; line-height: 1.6; font-weight: 300; }
+.hero-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.hero-pillar { display: flex; flex-direction: column; gap: 0.3rem; }
+.hero-pillar .p-icon { width: 38px; height: 38px; background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 0.4rem; }
+.hero-pillar .p-label { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+.hero-pillar .p-sub { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+.hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+.hero-cta-primary, .hero-cta-secondary { padding: 0.95rem 1.8rem; border-radius: 100px; font-weight: 600; font-size: 0.95rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.25s ease; }
+.hero-cta-primary { background: linear-gradient(135deg, var(--cogtive-blue), var(--cogtive-blue-dark)); color: white; box-shadow: 0 10px 30px rgba(0,102,255,0.25); }
+.hero-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,102,255,0.4); }
+.hero-cta-secondary { color: var(--text-primary); border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.02); }
+.hero-cta-secondary:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.25); }
+
+/* PARTICLES */
+.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.particle { position: absolute; background: rgba(0,102,255,0.55); border-radius: 50%; animation: floatUp 22s infinite linear; }
+@keyframes floatUp { 0% { transform: translateY(100vh) translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) translateX(40px); opacity: 0; } }
+
+/* PROBLEM */
+.problem-section { background: linear-gradient(180deg, var(--dark) 0%, #0F1629 100%); }
+.problem-grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.problem-card { background: var(--dark-surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 2rem 1.7rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
+.problem-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent-orange); opacity: 0.7; }
+.problem-card:hover { transform: translateY(-5px); border-color: rgba(245,158,11,0.25); box-shadow: 0 18px 50px rgba(0,0,0,0.3); }
+.problem-icon { width: 44px; height: 44px; background: rgba(245,158,11,0.12); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1rem; }
+.problem-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.7rem; line-height: 1.25; }
+.problem-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; }
+.problem-list { margin-top: 2.5rem; padding: 1.5rem 2rem; background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); border-radius: 14px; }
+.problem-list h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-orange); font-weight: 700; margin-bottom: 0.8rem; }
+.problem-list ul { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem 2rem; list-style: none; }
+.problem-list li { font-size: 0.88rem; color: var(--text-secondary); padding-left: 1.4rem; position: relative; line-height: 1.4; }
+.problem-list li::before { content: '○'; position: absolute; left: 0; color: var(--accent-orange); font-size: 1.1rem; line-height: 1; top: 0.1rem; }
+
+/* LIGHT INTRO */
+.light-section { background: linear-gradient(180deg, #0F1629 0%, var(--dark) 100%); }
+.light-grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.light-card { background: var(--dark-surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2.2rem 1.8rem; position: relative; overflow: hidden; transition: all 0.5s ease; }
+.light-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cogtive-blue), var(--accent-teal)); opacity: 0; transition: opacity 0.4s ease; }
+.light-card:hover::before { opacity: 1; }
+.light-card:hover { border-color: rgba(0,102,255,0.2); transform: translateY(-6px); box-shadow: 0 18px 50px rgba(0,0,0,0.3); }
+.light-icon { width: 56px; height: 56px; background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.3rem; }
+.light-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; letter-spacing: -0.3px; }
+.light-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* BENEFITS */
+.benefits-section { background: var(--dark); }
+.benefits-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+.benefits-col { background: var(--dark-surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 2.2rem; }
+.benefits-col.operational { border-top: 3px solid var(--accent-green); }
+.benefits-col.strategic { border-top: 3px solid var(--cogtive-blue); }
+.benefits-col h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.benefits-col .col-sub { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600; }
+.benefits-col.operational .col-sub { color: var(--accent-green); }
+.benefits-col.strategic .col-sub { color: var(--cogtive-blue-light); }
+.benefits-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.benefits-item { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.45; }
+.benefits-item .check { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 0.1rem; font-weight: 700; }
+.benefits-col.operational .benefits-item .check { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+.benefits-col.strategic .benefits-item .check { background: rgba(0,102,255,0.15); color: var(--cogtive-blue-light); }
+.benefits-item strong { color: var(--text-primary); font-weight: 600; }
+
+/* INSIGHT — Antes do IoT */
+.insight-section { background: linear-gradient(180deg, var(--dark) 0%, #0A1628 50%, var(--dark) 100%); position: relative; overflow: hidden; }
+.insight-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 800px; background: radial-gradient(circle, var(--cogtive-blue-glow) 0%, transparent 65%); opacity: 0.4; }
+.insight-inner { max-width: 1000px; margin: 0 auto; width: 100%; position: relative; z-index: 2; text-align: center; }
+.insight-quote { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.25; letter-spacing: -1px; margin: 2rem 0 1.5rem; }
+.insight-quote .highlight { background: linear-gradient(135deg, var(--cogtive-blue-light), var(--accent-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.insight-sub { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.7; max-width: 780px; margin: 0 auto 3rem; font-weight: 300; }
+.insight-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+.insight-step { padding: 1.5rem 1.3rem; background: rgba(17,24,39,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; text-align: left; position: relative; }
+.insight-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--cogtive-blue-light); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 0.4rem; }
+.insight-step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.insight-step p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+.insight-arrow { position: absolute; right: -16px; top: 50%; transform: translateY(-50%); z-index: 2; width: 28px; height: 28px; background: var(--cogtive-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: white; }
+
+/* COMPARE TABLE */
+.compare-section { background: linear-gradient(180deg, var(--dark) 0%, #0A1628 100%); }
+.compare-wrap { margin-top: 3rem; background: var(--dark-surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; }
+.compare-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; align-items: stretch; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.compare-row:last-child { border-bottom: none; }
+.compare-row.head { background: rgba(0,102,255,0.05); }
+.compare-row.head .compare-cell { padding: 1.2rem 1.5rem; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px; }
+.compare-cell { padding: 1.1rem 1.5rem; font-size: 0.9rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem; line-height: 1.45; }
+.compare-cell.label { color: var(--text-primary); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.015); }
+.compare-cell.light-col { background: rgba(0,102,255,0.04); border-right: 1px solid rgba(255,255,255,0.04); color: var(--text-primary); }
+.compare-cell.iot-col { color: var(--text-secondary); }
+.compare-cell .tag-light { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; color: var(--cogtive-blue-light); }
+.compare-cell .pip-good { color: var(--accent-green); font-weight: 700; margin-right: 0.3rem; }
+.compare-cell .pip-warn { color: var(--accent-orange); font-weight: 700; margin-right: 0.3rem; }
+.compare-cell .pip-bad { color: var(--accent-red); font-weight: 700; margin-right: 0.3rem; }
+.compare-disclaimer { margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-muted); text-align: center; font-style: italic; line-height: 1.55; max-width: 720px; margin-left: auto; margin-right: auto; }
+
+/* QUOTES */
+.quotes-section { background: var(--dark); }
+.quotes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.quote-card { padding: 1.8rem 2rem; background: rgba(17,24,39,0.6); border: 1px solid rgba(0,102,255,0.15); border-radius: 16px; position: relative; }
+.quote-card::before { content: '"'; position: absolute; top: -10px; left: 1.5rem; font-size: 4rem; line-height: 1; color: var(--cogtive-blue); opacity: 0.4; font-family: 'JetBrains Mono', monospace; }
+.quote-card p { font-size: 1rem; color: var(--text-primary); line-height: 1.55; font-weight: 500; padding-top: 0.5rem; }
+
+/* CTA */
+.cta-section { text-align: center; position: relative; overflow: hidden; padding: 8rem 3rem; background: linear-gradient(180deg, var(--dark) 0%, #091230 100%); }
+.cta-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 700px; height: 700px; background: radial-gradient(circle, var(--cogtive-blue-glow) 0%, transparent 65%); animation: pulse-glow 6s ease-in-out infinite; }
+.cta-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+.cta-section h2 { font-size: clamp(2.1rem,4.5vw,3.4rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 1.2rem; }
+.cta-section h2 .highlight { background: linear-gradient(135deg, var(--cogtive-blue-light), var(--accent-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cta-section p { font-size: 1.1rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto 2.5rem; line-height: 1.65; font-weight: 300; }
+.cta-button { display: inline-flex; align-items: center; gap: 0.7rem; padding: 1.2rem 2.6rem; background: linear-gradient(135deg, var(--cogtive-blue), var(--cogtive-blue-dark)); color: white; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 1.02rem; transition: all 0.3s ease; box-shadow: 0 15px 40px rgba(0,102,255,0.3); }
+.cta-button:hover { transform: translateY(-3px); box-shadow: 0 20px 55px rgba(0,102,255,0.5); }
+.cta-button .wa-icon { width: 22px; height: 22px; }
+.cta-logos { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+.cta-logos img.logo-cogtive { height: 38px; opacity: 0.9; width: auto; display: block; }
+.cta-logos .logo-x { font-size: 1.4rem; color: var(--text-muted); }
+.cta-logos .logo-client-wrap { background: white; padding: 0.8rem 1.4rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); display: flex; align-items: center; }
+.cta-logos .logo-client-wrap img { height: 48px; display: block; width: auto; }
+.cta-logos .lead-logo-text { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.5rem; color: #0066FF; letter-spacing: 2px; }
+.cta-sig { margin-top: 2rem; font-size: 0.78rem; color: var(--text-muted); letter-spacing: 1px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  nav { padding: 1rem 2rem; }
+  section { padding: 5rem 2rem; }
+  .problem-grid, .light-grid, .insight-steps { grid-template-columns: repeat(2, 1fr); }
+  .benefits-split, .quotes-grid { grid-template-columns: 1fr; }
+  .hero-pillars { grid-template-columns: repeat(2, 1fr); }
+  .problem-list ul { grid-template-columns: 1fr; }
+  .compare-row { grid-template-columns: 1.2fr 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0.8rem 1.2rem; }
+  .nav-label { display: none; }
+  section { padding: 4rem 1.2rem; }
+  .problem-grid, .light-grid, .insight-steps, .hero-pillars { grid-template-columns: 1fr; }
+  .insight-arrow { display: none; }
+  .compare-row { grid-template-columns: 1fr; }
+  .compare-cell.label, .compare-cell.light-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .compare-row.head .compare-cell { padding: 0.8rem 1.2rem; }
+  .compare-cell { padding: 0.9rem 1.2rem; }
+  .login-card { padding: 2.2rem 1.5rem; }
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <img class="login-logo" src="Cogtive_Logo_Off_White.png" alt="Cogtive"/>
+    <h2>Apresentação Exclusiva</h2>
+    <p class="login-sub">Conteúdo preparado para <strong style="color:var(--text-primary)">José Angelo — Itamaraty</strong>. Use as credenciais enviadas para acessar.</p>
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <div class="login-field">
+        <label>E-mail</label>
+        <input type="email" id="loginEmail" placeholder="seu@email.com" required autocomplete="off"/>
+      </div>
+      <div class="login-field">
+        <label>Senha</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="off"/>
+      </div>
+      <button type="submit" class="login-submit">Entrar</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+    <div class="login-footer">
+      <span>Acesso restrito</span>
+      <span>Cogtive · 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-card">
+    <button class="admin-close" id="adminClose">×</button>
+    <h3>Painel Admin <span class="tag">Cogtive</span></h3>
+    <p class="admin-sub">Controle de acesso. Requer master password.</p>
+    <div id="adminGate">
+      <div class="admin-section" style="border-top:none;padding-top:0;">
+        <div class="admin-label">Master Password</div>
+        <div class="admin-row">
+          <input type="password" id="adminMaster" placeholder="Digite a senha master"/>
+          <button class="admin-btn" id="adminUnlock">Desbloquear</button>
+        </div>
+        <div class="admin-status err" id="adminGateStatus"></div>
+      </div>
+    </div>
+    <div id="adminPanel" style="display:none">
+      <div class="admin-section" style="border-top:none;padding-top:0;">
+        <div class="admin-label">Status atual</div>
+        <div class="admin-current"><span>E-mail autorizado</span><span>jose.angelo@itamaraty.com</span></div>
+        <div class="admin-current"><span>Senha ativa</span><span id="adminCurrentPwd">••••••••</span></div>
+      </div>
+      <div class="admin-section">
+        <div class="admin-label">Trocar senha do lead</div>
+        <div class="admin-row">
+          <input type="text" id="adminNewPwd" placeholder="Nova senha (mín. 4 caracteres)"/>
+          <button class="admin-btn" id="adminSavePwd">Trocar</button>
+        </div>
+        <div class="admin-status" id="adminStatus"></div>
+        <p class="admin-help">Persistido em localStorage neste navegador. Atalho: <code>Ctrl + Shift + A</code>.</p>
+      </div>
+      <div class="admin-section">
+        <div class="admin-label">Ações</div>
+        <div class="admin-row" style="flex-wrap:wrap;gap:0.5rem;">
+          <button class="admin-btn ghost" id="adminReset">Resetar p/ inicial</button>
+          <button class="admin-btn ghost" id="adminReveal">Revelar senha</button>
+          <button class="admin-btn ghost" id="adminLogout">Deslogar lead</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="particles" id="particles"></div>
+
+  <nav>
+    <img class="nav-logo" src="Cogtive_Logo_Off_White.png" alt="Cogtive"/>
+    <span class="nav-label">Itamaraty · Maio 2026</span>
+    <button class="nav-logout" id="navLogout" onclick="logoutLead()">Sair</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="dot"></span>
+        <span class="light-badge" style="margin-right:0.5rem;">Cogtive Light</span>
+        Apresentação preparada para José Angelo · Itamaraty · Maio 2026
+      </div>
+      <h1 class="reveal reveal-delay-1">
+        Sua operação precisa de <span class="highlight">mais controle</span>.<br/>
+        Não de mais complexidade.
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Digitalize apontamentos, elimine papel e tenha visibilidade operacional desde o primeiro dia —
+        <strong style="color:var(--text-primary)">sem depender de projetos IoT longos para começar</strong>.
+        O Cogtive Light é a porta de entrada simples para o chão de fábrica.
+      </p>
+      <div class="hero-pillars reveal reveal-delay-3">
+        <div class="hero-pillar">
+          <div class="p-icon">📋</div>
+          <div class="p-label">Sem papel</div>
+          <div class="p-sub">Apontamentos digitais e padronizados</div>
+        </div>
+        <div class="hero-pillar">
+          <div class="p-icon">📊</div>
+          <div class="p-label">Sem planilha</div>
+          <div class="p-sub">Excel operacional substituído</div>
+        </div>
+        <div class="hero-pillar">
+          <div class="p-icon">⚡</div>
+          <div class="p-label">Implantação leve</div>
+          <div class="p-sub">Visibilidade rápida, baixo risco</div>
+        </div>
+        <div class="hero-pillar">
+          <div class="p-icon">🔌</div>
+          <div class="p-label">IoT opcional</div>
+          <div class="p-sub">Funciona antes da automação completa</div>
+        </div>
+      </div>
+      <div class="hero-actions reveal reveal-delay-4">
+        <a href="#light" class="hero-cta-primary">Entender como funciona →</a>
+        <a href="#compare" class="hero-cta-secondary">Ver aplicação prática</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="problem-section" id="problem">
+    <div class="section-inner">
+      <div class="section-label reveal">01 — O cenário atual de muitas operações</div>
+      <h2 class="section-title reveal reveal-delay-1">Antes da automação, a maior parte do chão de fábrica ainda vive de papel e Excel.</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        José, mesmo em operações que estão investindo em digitalização avançada, o básico do dia a dia muitas vezes
+        continua descentralizado, manual e dependente de planilhas. É aqui que a maior parte das decisões
+        operacionais ainda nasce — e onde a confiabilidade primeiro escorrega.
+      </p>
+
+      <div class="problem-grid">
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-icon">📄</div>
+          <h4>Controle no papel + Excel paralelo</h4>
+          <p>
+            Operadores preenchendo formulário manual no chão. Apontamentos digitados depois em planilhas que se
+            multiplicam. O dado da produção vive em várias mãos — e em várias versões.
+          </p>
+        </div>
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-icon">⏱️</div>
+          <h4>Dado chegando atrasado</h4>
+          <p>
+            Quando a informação consolidada chega à gestão, o turno já acabou. A decisão que precisava ser tomada
+            "agora" vira retrospectiva — e o ciclo de melhoria fica preso no dia seguinte.
+          </p>
+        </div>
+        <div class="problem-card reveal reveal-delay-3">
+          <div class="problem-icon">🧩</div>
+          <h4>Sem rastreabilidade real</h4>
+          <p>
+            Onde foi a perda? Em qual OP? Em qual turno? Sem o registro estruturado, cada investigação vira garimpo
+            em arquivos espalhados. A causa-raiz nunca fica clara o suficiente para virar ação.
+          </p>
+        </div>
+      </div>
+
+      <div class="problem-list reveal reveal-delay-3">
+        <h5>O custo invisível desse modelo</h5>
+        <ul>
+          <li>Informações espalhadas em planilhas, formulários e cadernos</li>
+          <li>Apontamentos inconsistentes entre operadores e turnos</li>
+          <li>Falta de visibilidade em tempo real para a gestão</li>
+          <li>Baixa confiabilidade nos números consolidados</li>
+          <li>Operação dependente da memória de poucas pessoas-chave</li>
+          <li>Projetos de IoT travando antes mesmo de gerar valor</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- O QUE É O LIGHT -->
+  <section class="light-section" id="light">
+    <div class="section-inner">
+      <div class="section-label reveal">02 — O que é o Cogtive Light</div>
+      <h2 class="section-title reveal reveal-delay-1">A digitalização prática do chão de fábrica — sem precisar conectar uma máquina sequer.</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        O Cogtive Light é uma versão simplificada da plataforma Cogtive. Mesmo padrão de UX, mesmo back-end,
+        mesma capacidade analítica — mas com foco em <strong style="color:var(--text-primary)">apontamento digital,
+        rastreabilidade e gestão à vista</strong>. Pensado para entrar rápido e gerar valor antes de qualquer
+        projeto de automação física.
+      </p>
+
+      <div class="light-grid">
+        <div class="light-card reveal reveal-delay-1">
+          <div class="light-icon">📱</div>
+          <h3>Apontamento digital no chão</h3>
+          <p>O operador registra produção, paradas e ocorrências direto no tablet ou totem da linha. Padrão único, sem dupla digitação, sem caderno paralelo.</p>
+        </div>
+        <div class="light-card reveal reveal-delay-2">
+          <div class="light-icon">📊</div>
+          <h3>Dados centralizados em tempo real</h3>
+          <p>A gestão acompanha o turno enquanto ele acontece. Meta × Real, paradas em andamento, ranking de OPs — tudo num painel único.</p>
+        </div>
+        <div class="light-card reveal reveal-delay-3">
+          <div class="light-icon">🔎</div>
+          <h3>Rastreabilidade por OP</h3>
+          <p>Cada Ordem de Produção carrega sua história: quem operou, quando parou, qual o motivo, qual o índice de qualidade. Histórico estruturado, auditável.</p>
+        </div>
+        <div class="light-card reveal reveal-delay-1">
+          <div class="light-icon">📺</div>
+          <h3>Gestão à vista no telão</h3>
+          <p>O mesmo dado em telões no chão. O operador vê a meta do turno, a perda em andamento, o que sobe e o que desce. Decisão na hora, sem reunião.</p>
+        </div>
+        <div class="light-card reveal reveal-delay-2">
+          <div class="light-icon">⚡</div>
+          <h3>Implantação em semanas</h3>
+          <p>Sem dependência de coletores IoT instalados máquina a máquina. Onboarding rápido, operação ganhando confiança no produto antes de qualquer integração pesada.</p>
+        </div>
+        <div class="light-card reveal reveal-delay-3">
+          <div class="light-icon">🔌</div>
+          <h3>Evolução para IoT quando fizer sentido</h3>
+          <p>Quando a operação estiver pronta, o caminho para o Cogtive Core (com coleta automática via IoT) já está pavimentado. Mesma plataforma, sem refazer trabalho.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section class="benefits-section" id="benefits">
+    <div class="section-inner">
+      <div class="section-label reveal">03 — Benefícios diretos</div>
+      <h2 class="section-title reveal reveal-delay-1">Ganhos operacionais imediatos. Ganhos estratégicos no longo prazo.</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        O Light entrega valor em duas frentes ao mesmo tempo: o dia a dia do chão de fábrica deixa de depender
+        de papel, e a empresa ganha uma base sólida para evoluir a digitalização no ritmo certo.
+      </p>
+
+      <div class="benefits-split">
+        <div class="benefits-col operational reveal reveal-delay-1">
+          <div class="col-sub">Benefícios operacionais</div>
+          <h3>O que muda no chão de fábrica</h3>
+          <div class="benefits-list" style="margin-top:1.5rem;">
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Eliminação de papel</strong> nas operações de apontamento, parada e qualidade</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Padronização</strong> do registro entre operadores e turnos — todo mundo aponta igual</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Redução de erros manuais</strong> pelo uso de listas, motivos pré-classificados e validações</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Dados centralizados</strong> em uma única plataforma — fim do Excel paralelo</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Informação em tempo real</strong> sobre meta, real, paradas e ranking de OPs</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Rastreabilidade por OP, turno e equipamento</strong> de forma nativa</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Melhor acompanhamento de produção</strong> com Pareto e ranking automatizados</span></div>
+          </div>
+        </div>
+
+        <div class="benefits-col strategic reveal reveal-delay-2">
+          <div class="col-sub">Benefícios estratégicos</div>
+          <h3>O que muda na decisão</h3>
+          <div class="benefits-list" style="margin-top:1.5rem;">
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Baixo risco de implantação</strong> — escopo enxuto, prazo curto, valor visível rápido</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Adoção mais natural pelo operador</strong> — interface foi feita para o chão, não para o BI</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Menor dependência de infraestrutura</strong> física e de integrações complexas</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Digitalização progressiva</strong> — começa pelo básico e evolui no ritmo da operação</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Base sólida para IoT futuro</strong> — quando a coleta automática entrar, a plataforma já existe</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>Continuidade operacional</strong> garantida mesmo se outro projeto industrial atrasar</span></div>
+            <div class="benefits-item"><span class="check">✓</span><span><strong>ROI antecipado</strong> — a gestão ganha visibilidade meses antes de qualquer integração pesada</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHT — Antes do IoT -->
+  <section class="insight-section" id="insight">
+    <div class="insight-inner">
+      <div class="section-label reveal" style="justify-content:center;">04 — Insight estratégico</div>
+      <h2 class="insight-quote reveal reveal-delay-1">
+        Nem toda transformação digital <span class="highlight">começa pelo IoT</span>.
+      </h2>
+      <p class="insight-sub reveal reveal-delay-2">
+        Muitas operações tentam saltar direto para a automação completa — e descobrem, no meio do caminho,
+        que a coleta automática é só uma parte do problema. A outra parte, a maior parte, é o
+        <strong style="color:var(--text-primary)">processo operacional ainda não estar digitalizado</strong>.
+        Sem essa base, qualquer integração trava.
+      </p>
+
+      <div class="insight-steps">
+        <div class="insight-step reveal reveal-delay-1">
+          <div class="step-num">PASSO 01</div>
+          <h4>Digitalize o básico</h4>
+          <p>Apontamento, paradas, qualidade e OPs em uma plataforma única. Padrão de registro. Operação organizada.</p>
+          <div class="insight-arrow">→</div>
+        </div>
+        <div class="insight-step reveal reveal-delay-2">
+          <div class="step-num">PASSO 02</div>
+          <h4>Ganhe visibilidade e cultura</h4>
+          <p>Gestão à vista, Pareto, comparação de turnos. O time começa a usar dado para decidir — e a confiar nele.</p>
+          <div class="insight-arrow">→</div>
+        </div>
+        <div class="insight-step reveal reveal-delay-3">
+          <div class="step-num">PASSO 03</div>
+          <h4>Automatize com segurança</h4>
+          <p>Com a base digital madura, integrar IoT, sensores e coleta automática vira ganho marginal — não fundação.</p>
+        </div>
+      </div>
+
+      <p class="insight-sub reveal reveal-delay-4" style="margin-top:3rem;font-size:1rem;">
+        <strong style="color:var(--text-primary)">Resumindo:</strong> o Cogtive Light não substitui automação avançada —
+        ele garante que ela vai entregar valor quando chegar.
+      </p>
+    </div>
+  </section>
+
+  <!-- COMPARATIVO -->
+  <section class="compare-section" id="compare">
+    <div class="section-inner">
+      <div class="section-label reveal">05 — Comparativo estratégico</div>
+      <h2 class="section-title reveal reveal-delay-1">Cogtive Light <span style="color:var(--text-muted);font-weight:400;">×</span> Soluções IoT-first.</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        Os dois caminhos chegam ao mesmo lugar no longo prazo. A diferença está no ponto de partida — e em quanto
+        tempo a operação leva para tirar valor do investimento.
+      </p>
+
+      <div class="compare-wrap reveal reveal-delay-3">
+        <div class="compare-row head">
+          <div class="compare-cell">Tema</div>
+          <div class="compare-cell light-col"><span class="light-badge">Cogtive Light</span></div>
+          <div class="compare-cell">Soluções dependentes de IoT</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Dependência de IoT</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Baixa ou opcional</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Alta — projeto não anda sem ela</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Integração com máquinas</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Não exigida no go-live</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Necessária para performance plena</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Complexidade inicial</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Baixa</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Média / Alta</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Tempo até primeiro valor</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Semanas</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Meses</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Dependência técnica</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Menor — onboarding leve</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Alta — exige time dedicado</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Digitalização operacional</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Imediata</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Parcial até a integração</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Eliminação de papel</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Foco central do produto</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Parcial — depende da etapa</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Uso de Excel paralelo</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Substituído direto</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Comum durante implantação</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Barreiras de adoção</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Menores</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Maiores</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Flexibilidade operacional</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Alta</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Menor</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell label">Evolução natural</div>
+          <div class="compare-cell light-col"><span class="pip-good">●</span> Light → Core (mesma plataforma)</div>
+          <div class="compare-cell iot-col"><span class="pip-warn">●</span> Continuidade depende do fornecedor</div>
+        </div>
+      </div>
+
+      <p class="compare-disclaimer reveal reveal-delay-4">
+        Comparativo conceitual entre arquiteturas de digitalização do chão de fábrica. O caminho ideal depende
+        do nível de maturidade digital, da infraestrutura disponível e do horizonte de tempo da operação.
+      </p>
+    </div>
+  </section>
+
+  <!-- QUOTES -->
+  <section class="quotes-section">
+    <div class="section-inner">
+      <div class="section-label reveal">06 — Frases para levar</div>
+      <h2 class="section-title reveal reveal-delay-1">A mensagem do Cogtive Light em uma linha.</h2>
+      <div class="quotes-grid">
+        <div class="quote-card reveal reveal-delay-1"><p>Digitalize antes de automatizar tudo.</p></div>
+        <div class="quote-card reveal reveal-delay-2"><p>Menos complexidade. Mais visibilidade.</p></div>
+        <div class="quote-card reveal reveal-delay-3"><p>Substitua papel e Excel por operação em tempo real.</p></div>
+        <div class="quote-card reveal reveal-delay-4"><p>Comece simples. Evolua com segurança.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-inner">
+      <div class="section-label reveal" style="justify-content:center;">PRÓXIMO PASSO</div>
+      <h2 class="reveal reveal-delay-1">Sua operação não precisa esperar o IoT funcionar para <span class="highlight">ganhar controle</span>.</h2>
+      <p class="reveal reveal-delay-2">
+        José, enquanto projetos complexos tentam conectar máquinas, o Cogtive Light já entrega organização,
+        rastreabilidade e visibilidade desde o primeiro dia. Quando quiser conhecer uma aplicação prática para
+        a Itamaraty, fala com o Magnum pelo WhatsApp — sem pressa, conversa exploratória.
+      </p>
+      <a href="https://wa.me/5511936187451?text=Oi%20Magnum%2C%20vim%20da%20apresenta%C3%A7%C3%A3o%20do%20Cogtive%20Light%20para%20a%20Itamaraty%20e%20queria%20conhecer%20uma%20aplica%C3%A7%C3%A3o%20pr%C3%A1tica." class="cta-button reveal reveal-delay-3" target="_blank" rel="noopener">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Conhecer aplicação prática com Magnum
+      </a>
+      <div class="cta-logos reveal reveal-delay-4">
+        <img class="logo-cogtive" src="Cogtive_Logo_Off_White.png" alt="Cogtive"/>
+        <span class="logo-x">×</span>
+        <div class="logo-client-wrap">
+          <span class="lead-logo-text">ITAMARATY</span>
+        </div>
+      </div>
+      <div class="cta-sig reveal reveal-delay-5">Apresentação preparada para José Angelo · Itamaraty · Maio 2026</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const AUTH = {
+  authorizedEmail: 'jose.angelo@itamaraty.com',
+  defaultPassword: 'Cogtive123',
+  masterPassword: 'Cog2026',
+  storageKey: 'cogtive_itamaraty_pwd_v1',
+  sessionKey: 'cogtive_itamaraty_auth_v1'
+};
+
+function getCurrentPassword() { try { const s = localStorage.getItem(AUTH.storageKey); return s || AUTH.defaultPassword; } catch(e) { return AUTH.defaultPassword; } }
+function setCurrentPassword(p) { try { localStorage.setItem(AUTH.storageKey, p); } catch(e) {} }
+function resetPassword() { try { localStorage.removeItem(AUTH.storageKey); } catch(e) {} }
+function isAlreadyAuthed() { try { return sessionStorage.getItem(AUTH.sessionKey) === '1'; } catch(e) { return false; } }
+function markAuthed() { try { sessionStorage.setItem(AUTH.sessionKey, '1'); } catch(e) {} }
+
+function logoutLead() {
+  try { sessionStorage.removeItem(AUTH.sessionKey); } catch(e) {}
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('app').classList.add('hidden');
+  document.body.classList.add('locked');
+}
+
+function revealApp() {
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('app').classList.remove('hidden');
+  document.body.classList.remove('locked');
+  markAuthed();
+  initAnimations();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (isAlreadyAuthed()) revealApp(); else document.body.classList.add('locked');
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const pwd = document.getElementById('loginPassword').value;
+    const errEl = document.getElementById('loginError');
+    errEl.textContent = '';
+    if (email !== AUTH.authorizedEmail.toLowerCase()) { errEl.textContent = '✕ E-mail não autorizado.'; return; }
+    if (pwd !== getCurrentPassword()) { errEl.textContent = '✕ Senha incorreta.'; return; }
+    revealApp();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); openAdmin(); }
+    if (e.key === 'Escape') { const ov = document.getElementById('adminOverlay'); if (ov.classList.contains('visible')) closeAdmin(); }
+  });
+
+  document.getElementById('adminClose').addEventListener('click', closeAdmin);
+  document.getElementById('adminUnlock').addEventListener('click', tryUnlockAdmin);
+  document.getElementById('adminMaster').addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlockAdmin(); });
+  document.getElementById('adminSavePwd').addEventListener('click', saveLeadPwd);
+  document.getElementById('adminNewPwd').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveLeadPwd(); });
+  document.getElementById('adminReset').addEventListener('click', () => { resetPassword(); updateAdminDisplay(); setAdminStatus('Senha resetada.', 'ok'); });
+  document.getElementById('adminReveal').addEventListener('click', () => { document.getElementById('adminCurrentPwd').textContent = getCurrentPassword(); });
+  document.getElementById('adminLogout').addEventListener('click', () => { logoutLead(); closeAdmin(); });
+});
+
+function openAdmin() {
+  const ov = document.getElementById('adminOverlay');
+  ov.classList.add('visible');
+  document.getElementById('adminGate').style.display = '';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminMaster').value = '';
+  document.getElementById('adminGateStatus').textContent = '';
+  setTimeout(() => document.getElementById('adminMaster').focus(), 50);
+}
+function closeAdmin() { document.getElementById('adminOverlay').classList.remove('visible'); }
+function tryUnlockAdmin() {
+  const v = document.getElementById('adminMaster').value;
+  const status = document.getElementById('adminGateStatus');
+  if (v === AUTH.masterPassword) { document.getElementById('adminGate').style.display = 'none'; document.getElementById('adminPanel').style.display = ''; updateAdminDisplay(); status.textContent = ''; }
+  else { status.textContent = '✕ Master password incorreta.'; }
+}
+function updateAdminDisplay() { document.getElementById('adminCurrentPwd').textContent = '••••••••'; document.getElementById('adminNewPwd').value = ''; }
+function setAdminStatus(msg, kind) { const s = document.getElementById('adminStatus'); s.textContent = msg; s.className = 'admin-status ' + (kind || ''); }
+function saveLeadPwd() {
+  const v = document.getElementById('adminNewPwd').value.trim();
+  if (v.length < 4) { setAdminStatus('✕ Mínimo 4 caracteres.', 'err'); return; }
+  setCurrentPassword(v); updateAdminDisplay(); setAdminStatus('✓ Senha atualizada.', 'ok');
+}
+
+// ANIMATIONS
+let animationsStarted = false;
+function initAnimations() {
+  if (animationsStarted) return;
+  animationsStarted = true;
+
+  const particlesEl = document.getElementById('particles');
+  if (particlesEl && particlesEl.childElementCount === 0) {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (10 + Math.random() * 14) + 's';
+      p.style.animationDelay = (Math.random() * 15) + 's';
+      const sz = 1 + Math.random() * 2.5;
+      p.style.width = sz + 'px'; p.style.height = sz + 'px';
+      particlesEl.appendChild(p);
+    }
+  }
+
+  const progressBar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }, { passive: true });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+</script>
+</body>
+</html>
